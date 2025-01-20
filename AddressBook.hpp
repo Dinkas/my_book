@@ -9,7 +9,7 @@ class AddressBook {
 public:
     AddressBook();
     AddressBook(string newFirstname, string newLastname, string newPatronymic,
-                             string newPhone_home, string newPhone_work, string newPhone_mobile,
+                             string newPhone_home, string newPhone_work, string newPhone_mobile, string newEmail,
                              DateType newBirthday, string newAddress1, string newAddress2,
                              string newCity, string newCountry);
 
@@ -19,6 +19,7 @@ public:
     string GetPhone_home();
     string GetPhone_work();
     string GetPhone_mobile();
+    string GetEmail();
     DateType GetBirthday();
     string GetAddress1();
     string GetAddress2();
@@ -31,6 +32,7 @@ public:
     void SetPhone_home(string newPhone_home);
     void SetPhone_work(string newPhone_work);
     void SetPhone_mobile(string newPhone_mobile);
+    void SetNewEmail(string newEnail);
     void SetBirthday(DateType newBirthday);
     void SetAddress1(string newAddress1);
     void SetAddress2(string newAddress2);
@@ -60,6 +62,9 @@ private:
 
     // Служебный номер телефона
     string phone_mobile;
+
+    //Почта
+    string Email;
 
     // Дата рождения
     DateType birthday;

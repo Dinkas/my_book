@@ -10,7 +10,7 @@ AddressBook::AddressBook()
 }
 
 AddressBook::AddressBook(string newFirstname, string newLastname, string newPatronymic,
-                         string newPhone_home, string newPhone_work, string newPhone_mobile,
+                         string newPhone_home, string newPhone_work, string newPhone_mobile, string newEmail,
                          DateType newBirthday, string newAddress1, string newAddress2,
                          string newCity, string newCountry)
 {
@@ -50,7 +50,9 @@ string AddressBook::GetPhone_work() {
 string AddressBook::GetPhone_mobile() {
     return phone_mobile;
 }
-
+string AddressBook::GetEmail() {
+    return Email;
+}
 DateType AddressBook::GetBirthday() {
     return birthday;
 }
@@ -94,6 +96,11 @@ void AddressBook::SetPhone_work(string newPhone_work) {
 void AddressBook::SetPhone_mobile(string newPhone_mobile) {
     phone_mobile = newPhone_mobile;
 }
+
+void AddressBook::SetNewEmail(string newEmail){
+    Email = newEmail;
+}
+
 
 void AddressBook::SetBirthday(DateType newBirthday) {
     birthday = newBirthday;

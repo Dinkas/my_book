@@ -143,7 +143,7 @@ string trimText(string str) {
 int addAdressBookItem(istream& input, LinkedListType<AddressBook>& addressBookList)
 {
     string newFirstname, newLastname, newPatronymic, newPhone_home, newPhone_work,
-        newPhone_mobile, newAddress1, newAddress2, newCity, newCountry;
+        newPhone_mobile, newEmail, newAddress1, newAddress2, newCity, newCountry;
     DateType newBirthday;
     char hasBirthday;
 
@@ -151,26 +151,94 @@ int addAdressBookItem(istream& input, LinkedListType<AddressBook>& addressBookLi
     string garbage;
     std::getline(cin, garbage);
 
-    cout << "Введите Фамилию: ";
-    std::getline(cin, newLastname);
+    while (1) {
+        cout << "Введите Фамилию: ";
+        std::getline(cin, newLastname);
+        newLastname = trimText(newLastname);
 
-    std::cout << "Entered: " << newLastname << endl;
+        if (isValidName(newLastname)) {
+            break;
+        }
+        std::cout << "Фамилия должна содержать только буквы и цифры различных алфавитов, а "
+                     "также дефис и пробел, но при этом должны начинаться только на буквы, и "
+                     "не могли бы оканчиваться или начинаться на дефис." << std::endl;
+    }
 
-    cout << "Введите Имя: ";
-    std::getline(std::cin, newFirstname);
 
-    cout << "Введите Отчество: ";
-    std::getline(std::cin, newPatronymic);
+    while (1) {
+        cout << "Введите Имя: ";
+        std::getline(std::cin, newFirstname);
+        newFirstname = trimText(newFirstname);
 
-    cout << "Введите домашний номер телефона: ";
-    std::getline(std::cin, newPhone_home);
+        if (isValidName(newFirstname)) {
+            break;
+        }
+        std::cout << "Имя должно содержать только буквы и цифры различных алфавитов, а "
+                     "также дефис и пробел, но при этом должны начинаться только на буквы, и "
+                     "не могли бы оканчиваться или начинаться на дефис." << std::endl;
 
-    cout << "Введите рабочий номер телефона: ";
-    std::getline(std::cin, newPhone_work);
+    }
 
-    cout << "Введите мобмльный номер телефона: ";
-    std::getline(std::cin, newPhone_mobile);
 
+    while (1) {
+        cout << "Введите Отчество: ";
+        std::getline(std::cin, newPatronymic);
+        newPatronymic = trimText(newPatronymic);
+
+        if (isValidName(newPatronymic)) {
+            break;
+        }
+        std::cout << "Отчество должно содержать только буквы и цифры различных алфавитов, а "
+                     "также дефис и пробел, но при этом должны начинаться только на буквы, и "
+                     "не могли бы оканчиваться или начинаться на дефис." << std::endl;
+
+    }
+
+    while (1) {
+        cout << "Введите домашний номер телефона: ";
+        std::getline(std::cin, newPhone_home);
+        newPhone_home = trimText(newPhone_home);
+
+        if (isValidPhoneNumber(newPhone_home)) {
+            break;
+        }
+        std::cout << "Вы указали некорректный номер телефона." << std::endl;
+    }
+
+    while (1) {
+        cout << "Введите рабочий номер телефона: ";
+        std::getline(std::cin, newPhone_work);
+        newPhone_work = trimText(newPhone_work);
+
+        if (isValidPhoneNumber(newPhone_mobile)) {
+            break;
+        }
+        std::cout << "Вы указали некорректный номер телефона." << std::endl;
+    }
+
+    while (1) {
+        cout << "Введите мобильный номер телефона: ";
+        std::getline(std::cin, newPhone_mobile);
+        newPhone_mobile = trimText(newPhone_mobile);
+
+        if (isValidPhoneNumber(newPhone_mobile)) {
+            break;
+        }
+        std::cout << "Вы указали некорректный номер телефона." << std::endl;
+    }
+
+
+    while (1) {
+        cout << "Введите Email: ";
+        std::getline(std::cin, newEmail);
+        if (isValidEmail(newEmail)) {
+            break;
+        }
+        std::cout << "Введён некорректный Email. Допустимо использовать только латинские буквы, цифры, знак подчеркивания, точку и минус. " << std::endl;
+    }
+
+    cout << "Введите адрес: ";
+    std::getline(std::cin, newAddress1);
 
     cout << "Введите номер квартиры (0 если частный дом): ";
     std::getline(std::cin, newAddress2);
@@ -205,7 +273,7 @@ int addAdressBookItem(istream& input, LinkedListType<AddressBook>& addressBookLi
         }
     }
     AddressBook newContact(newFirstname, newLastname, newPatronymic,
-                           newPhone_home, newPhone_work, newPhone_mobile,
+                           newPhone_home, newPhone_work, newPhone_mobile, newEmail,
                            newBirthday, newAddress1, newAddress2,
                            newCity, newCountry);
     try
@@ -226,7 +294,7 @@ int addAdressBookItem(istream& input, LinkedListType<AddressBook>& addressBookLi
 void searchAddressBookItem(istream& input, LinkedListType<AddressBook>& addressBookList)
 {
     string newFirstname, newLastname, newPatronymic, newPhone_home, newPhone_work,
-        newPhone_mobile, newAddress1, newAddress2, newCity, newCountry;
+        newPhone_mobile, newEmail,  newAddress1, newAddress2, newCity, newCountry;
 
     cout << "Введите Имя: ";
     input >> newFirstname;
@@ -235,7 +303,7 @@ void searchAddressBookItem(istream& input, LinkedListType<AddressBook>& addressB
     DateType newBirthday;
 
     AddressBook newContact(newFirstname, newLastname, newPatronymic,
-                           newPhone_home, newPhone_work, newPhone_mobile,
+                           newPhone_home, newPhone_work, newPhone_mobile, newEmail,
                            newBirthday, newAddress1, newAddress2,
                            newCity, newCountry);
 
@@ -278,7 +346,7 @@ void searchAddressBookItem(istream& input, LinkedListType<AddressBook>& addressB
 void deleteAddressBookItem(istream& input, LinkedListType<AddressBook>& addressBookList)
 {
     string newFirstname, newLastname, newPatronymic, newPhone_home, newPhone_work,
-        newPhone_mobile, newAddress1, newAddress2, newCity, newCountry;
+        newPhone_mobile, newEmail, newAddress1, newAddress2, newCity, newCountry;
 
     cout << "Enter first name of contact to delete: ";
     input >> newFirstname;
@@ -287,7 +355,7 @@ void deleteAddressBookItem(istream& input, LinkedListType<AddressBook>& addressB
     DateType newBirthday;
 
     AddressBook newContact(newFirstname, newLastname, newPatronymic,
-                           newPhone_home, newPhone_work, newPhone_mobile,
+                           newPhone_home, newPhone_work, newPhone_mobile, newEmail,
                            newBirthday, newAddress1, newAddress2,
                            newCity, newCountry);
 
@@ -395,7 +463,7 @@ void loadAddressBook(LinkedListType<AddressBook>& addressBookList)
             {
                 int newMonth, newDay, newYear;
                 string newFirstname, newLastname, newPatronymic, newPhone_home, newPhone_work,
-                    newPhone_mobile, newAddress1, newAddress2, newCity, newCountry;
+                    newPhone_mobile, newEmail, newAddress1, newAddress2, newCity, newCountry;
                 DateType newBirthday;
 
                 string hasDateStr;
@@ -407,6 +475,7 @@ void loadAddressBook(LinkedListType<AddressBook>& addressBookList)
                 std::getline(addressBook, newPhone_home);
                 std::getline(addressBook, newPhone_work);
                 std::getline(addressBook, newPhone_mobile);
+                std::getline(addressBook, newEmail);
                 std::getline(addressBook, newAddress1);
                 std::getline(addressBook, newAddress2);
                 std::getline(addressBook, newCity);
@@ -434,7 +503,7 @@ void loadAddressBook(LinkedListType<AddressBook>& addressBookList)
                     newBirthday.Initialize(newMonth,newDay,newYear);
                 }
                 AddressBook newContact(newFirstname, newLastname, newPatronymic,
-                                       newPhone_home, newPhone_work, newPhone_mobile,
+                                       newPhone_home, newPhone_work, newPhone_mobile, newEmail,
                                        newBirthday, newAddress1, newAddress2,
                                        newCity, newCountry);
 
@@ -475,6 +544,7 @@ void saveAddressBookList(LinkedListType<AddressBook>& addressBookList)
         string contactPhone_home = newContact.GetPhone_home();
         string contactPhone_work = newContact.GetPhone_work();
         string contactPhone_mobile = newContact.GetPhone_mobile();
+        string contactEmail = newContact.GetEmail();
         string contactAddress1 = newContact.GetAddress1();
         string contactAddress2 = newContact.GetAddress2();
         string contactCity = newContact.GetCity();
