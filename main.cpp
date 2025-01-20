@@ -112,10 +112,28 @@ void menuShowHelp() {
     cout << "    q    exit program" << endl << endl;
 }
 
+
+
+
+
+
+
 bool isValidEmail(string_view str) {
     static const regex r(R"(\w+@\w+\.(?:com|in|ru|net))");
     return regex_match(str.data(), r);
 }
+
+bool isValidPhoneNumber(string_view str) {
+    static const regex r(R"(\+?[78]{1}\(?[0-9]{3}\)?[0-9]{3}\-?[0-9]{2}\-?[0-9]{2})");
+    return regex_match(str.data(), r);
+}
+
+bool isValidName(string_view str) {
+    std::regex pattern("^[a-zA-Zа-яА-Я][0-9a-zA-Zа-яА-Я\\s\\-]+[^-]$");
+    return regex_match(str.data(), pattern);
+}
+
+
 
 int addAdressBookItem(istream& input, LinkedListType<AddressBook>& addressBookList)
 {
