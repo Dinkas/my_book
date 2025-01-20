@@ -113,11 +113,6 @@ void menuShowHelp() {
 }
 
 
-
-
-
-
-
 bool isValidEmail(string_view str) {
     static const regex r(R"(\w+@\w+\.(?:com|in|ru|net))");
     return regex_match(str.data(), r);
@@ -133,6 +128,16 @@ bool isValidName(string_view str) {
     return regex_match(str.data(), pattern);
 }
 
+// Обрезает пробелы в начале и в конце строки
+string trimText(string str) {
+    str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](unsigned char ch) {
+                  return !std::isspace(ch);
+              }));
+    str.erase(std::find_if(str.rbegin(), str.rend(), [](unsigned char ch) {
+                  return !std::isspace(ch);
+              }).base(), str.end());
+    return str;
+}
 
 
 int addAdressBookItem(istream& input, LinkedListType<AddressBook>& addressBookList)
