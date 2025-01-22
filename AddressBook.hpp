@@ -6,7 +6,11 @@
 using namespace std;
 
 class AddressBook {
+
 public:
+
+
+
     AddressBook();
     AddressBook(string newFirstname, string newLastname, string newPatronymic,
                              string newPhone_home, string newPhone_work, string newPhone_mobile, string newEmail,

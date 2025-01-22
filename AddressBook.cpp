@@ -20,6 +20,7 @@ AddressBook::AddressBook(string newFirstname, string newLastname, string newPatr
     phone_home = newPhone_home;
     phone_work = newPhone_work;
     phone_mobile = newPhone_mobile;
+    Email = newEmail;
     birthday = newBirthday;
     address1 = newAddress1;
     address2 = newAddress2;
@@ -125,7 +126,7 @@ void AddressBook::SetCountry(string newCountry) {
 void AddressBook::PrintAddress(ostream& out) {
     out << "Name: " << lastname << " " << firstname << " " << patronymic << endl;
     out << "Phones home: " << phone_home << ", work: " << phone_work << ", " << ", mobile: " << phone_mobile << endl;
-    out << "Birthday: " << birthday.DateString() << endl;
+    out <<"Почта: " << Email << ", " << "Birthday: " << birthday.DateString() << endl;
     out << "Address: " << address1 << " " << address2 << ", " << city << ", " << country << endl;
 }
 

@@ -14,8 +14,9 @@ DateType::DateType()
     year = 0;
 }
 
-void DateType::Initialize(int newMonth, int newDay, int newYear)
+void DateType::Initialize(int newDay, int newMonth, int newYear)
 {
+
     if (newYear < 1583 || newYear > 9999)
         throw InvalidDateException();
     else if (newMonth < 1 || newMonth > 12)
@@ -23,6 +24,7 @@ void DateType::Initialize(int newMonth, int newDay, int newYear)
     else if (newDay < 1 || newDay > daysInMonth[newMonth] ||
              (newMonth == 2 && newDay == 29 && (newYear % 4 != 0 ||
                                                 (newYear % 100 == 0 && newYear % 400 != 0))))
+
         throw InvalidDateException();
     else
     {
@@ -38,34 +40,20 @@ bool DateType::IsInitialized()
     return initialized;
 }
 
-int DateType::GetMonth() const
-{
-    return month;
-}
 
 int DateType::GetDay() const
 {
     return day;
 }
 
+int DateType::GetMonth() const
+{
+    return month;
+}
+
 int DateType::GetYear() const
 {
     return year;
-}
-
-void DateType::SetMonth(int newMonth)
-{
-    if (initialized == false)
-        throw UnInitializedException();
-    else
-        try
-        {
-            DateType::Initialize(newMonth, day, year);
-        }
-        catch(const InvalidDateException)
-        {
-            throw;
-        }
 }
 
 
@@ -76,7 +64,7 @@ void DateType::SetDay(int newDay)
     else
         try
         {
-            DateType::Initialize(month, newDay, year);
+            DateType::Initialize(newDay, month, year);
         }
         catch(InvalidDateException)
         {
@@ -84,6 +72,21 @@ void DateType::SetDay(int newDay)
         }
 
 
+}
+
+void DateType::SetMonth(int newMonth)
+{
+    if (initialized == false)
+        throw UnInitializedException();
+    else
+        try
+        {
+            DateType::Initialize(day, newMonth, year);
+        }
+        catch(const InvalidDateException)
+        {
+            throw;
+        }
 }
 
 void DateType::SetYear(int newYear)
@@ -140,7 +143,7 @@ string DateType::DateString()
     else
     {
         ostringstream outputStream;
-        outputStream << month << "/" << day << "/" << year;
+        outputStream << day << "/" << month << "/" << year;
         string outputString = outputStream.str();
         return outputString;
     }

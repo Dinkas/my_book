@@ -8,9 +8,7 @@
 #include "AddressBook.hpp"
 #include "DateType.hpp"
 #include "LinkedList.hpp"
-//#include <QCoreApplication>
-//#include <QObject>
-//#include <QWidget>
+
 
 // тестовое изменение для проверки коммитов в гит
 
@@ -23,7 +21,7 @@ using namespace std;
 const char CMD_ADD_CONTACT = 'a', CMD_DELETE_CONTACT = 'd', CMD_SEARCH_CONTACT = 's',
     CMD_PRINT_CONTACTS = 'p', CMD_HELP = 'h', CMD_QUIT = 'q';
 
-const string ADDRESS_BOOK_FILE = "C:\\projects\\lsh\\addressbook.txt";
+const string ADDRESS_BOOK_FILE = "C:/projects/diana_cons/addressbook.txt";
 
 void runProg(istream& input, ostream& output);
 void versionShow();
@@ -210,7 +208,7 @@ int addAdressBookItem(istream& input, LinkedListType<AddressBook>& addressBookLi
         std::getline(std::cin, newPhone_work);
         newPhone_work = trimText(newPhone_work);
 
-        if (isValidPhoneNumber(newPhone_mobile)) {
+        if (isValidPhoneNumber(newPhone_work)) {
             break;
         }
         std::cout << "Вы указали некорректный номер телефона." << std::endl;
@@ -253,7 +251,7 @@ int addAdressBookItem(istream& input, LinkedListType<AddressBook>& addressBookLi
     input >> hasBirthday;
     if (hasBirthday == 'y' || hasBirthday == 'Y')
     {
-        int newMonth, newDay, newYear;
+        int newDay,newMonth, newYear;
         cout << "Введите день рождения (DD): ";
         input >> newDay;
         cout << "Ввдите месяц рождения (MM): ";
@@ -262,7 +260,7 @@ int addAdressBookItem(istream& input, LinkedListType<AddressBook>& addressBookLi
         input >> newYear;
         try
         {
-            newBirthday.Initialize(newDay, newMonth, newYear);
+            newBirthday.Initialize(newDay,newMonth, newYear);
         }
         catch(...)
         {
@@ -321,7 +319,7 @@ void searchAddressBookItem(istream& input, LinkedListType<AddressBook>& addressB
     newContact.PrintAddress(cout);
 
     char willEdit;
-    cout << "Редактировать записть (y/n)? ";
+    cout << "Редактировать запись (y/n)? ";
     input >> willEdit;
     if (willEdit == 'y' || willEdit == 'Y')
     {
@@ -396,7 +394,7 @@ void browseAddressBook(istream& input, LinkedListType<AddressBook>& addressBookL
         cout << "4:Редактировать запись" << endl;
         cout << "5:Вернуться в основное меню" << endl;
         cout << "------------------------------------------" << endl;
-        cout << "Enter selection (1-7): ";
+        cout << "Enter selection (1-5): ";
         input >> menuChoice;
 
 
@@ -412,31 +410,94 @@ void browseAddressBook(istream& input, LinkedListType<AddressBook>& addressBookL
             addressBookList.DeleteItem(currentContact);
             cout << "Запись удалена. Возврат в основное меню.";
             return;
-        case 4: //edit
-            addressBookList.DeleteItem(currentContact);
-            editSuccess = addAdressBookItem(input, addressBookList);
-            if (editSuccess == 0)
-            {
-                cout << "Запись успешно отредактирована." << endl;
+        case 4: // редактирование записи
+            cout << "Выберите поле для редактирования:" << endl;
+            cout << "1: Фамилия" << endl;
+            cout << "2: Имя" << endl;
+            cout << "3: Отчество" << endl;
+            cout << "4: Домашний телефон" << endl;
+            cout << "5: Рабочий телефон" << endl;
+            cout << "6: Мобильный телефон" << endl;
+
+            cout << "Введите номер поля для редактирования: ";
+            int fieldChoice;
+            input >> fieldChoice;
+
+            // Обработать выбор
+            switch (fieldChoice) {
+            case 1: {
+                addressBookList.DeleteItem(currentContact);
+                string newLastname;
+                cout << "Введите новую фамилию: ";
+                input >> newLastname;
+                cout<<newLastname<<endl;
+                currentContact.SetLastname(newLastname);
+                break;
+            }
+            case 2: {
+                addressBookList.DeleteItem(currentContact);
+                string newFirstname;
+                cout << "Введите новое имя: ";
+                input >> newFirstname;
+                currentContact.SetFirstname(newFirstname);
+                break;
+            }
+            case 3: {
+                addressBookList.DeleteItem(currentContact);
+                string newPatronymic;
+                cout << "Введите новое отчество: ";
+                input >> newPatronymic;
+                currentContact.SetPatronymic(newPatronymic);
+                break;
+            }
+            case 4: {
+                addressBookList.DeleteItem(currentContact);
+                string newPhone_home;
+                cout << "Введите новый домашний телефон: ";
+                input >> newPhone_home;
+                currentContact.SetPhone_home(newPhone_home);
+                break;
+            }
+            case 5: {
+                addressBookList.DeleteItem(currentContact);
+                string newPhone_work;
+                cout << "Введите новый рабочий телефон: ";
+                input >> newPhone_work;
+                currentContact.SetPhone_work(newPhone_work);
+                break;
+            }
+            case 6: {
+                addressBookList.DeleteItem(currentContact);
+                string newPhone_mobile;
+                cout << "Введите новый мобильный телефон: ";
+                input >> newPhone_mobile;
+                currentContact.SetPhone_mobile(newPhone_mobile);
+                break;
+            }
+
+            default:
+                cout << "Неверный выбор! Возвращение в основное меню." << endl;
                 return;
             }
-            else
-            {
-                cout << "Ошибка редактирования записи. Возврат в основное меню." << endl;
-                addressBookList.PutItem(currentContact);
-                return;
-            }
+
+            // После редактирования возвращаем запись в список
+
+           addressBookList.PutItem(currentContact);
+            cout << "Запись успешно отредактирована." << endl;
             return;
         case 5:
             return;
         default:
-            cout << "Неизвестная комадна. Возврат в основное меню." << endl;
-            cin.clear();
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Неизвестная команда. Возврат в основное меню." << endl;
+            input.clear();
+            input.ignore(numeric_limits<streamsize>::max(), '\n');
             return;
         }
     }
 }
+
+
+
 
 
 void loadAddressBook(LinkedListType<AddressBook>& addressBookList)
@@ -461,7 +522,7 @@ void loadAddressBook(LinkedListType<AddressBook>& addressBookList)
             //addressBook >> fileLength;
             for(int i = 0; i < fileLength; i++)
             {
-                int newMonth, newDay, newYear;
+                int newDay,newMonth, newYear;
                 string newFirstname, newLastname, newPatronymic, newPhone_home, newPhone_work,
                     newPhone_mobile, newEmail, newAddress1, newAddress2, newCity, newCountry;
                 DateType newBirthday;
@@ -469,7 +530,7 @@ void loadAddressBook(LinkedListType<AddressBook>& addressBookList)
                 string hasDateStr;
                 int hasDate;
 
-                std::getline(addressBook, newLastname);
+               std::getline(addressBook, newLastname);
                 std::getline(addressBook, newFirstname);
                 std::getline(addressBook, newPatronymic);
                 std::getline(addressBook, newPhone_home);
@@ -484,7 +545,7 @@ void loadAddressBook(LinkedListType<AddressBook>& addressBookList)
                 std::getline(addressBook, hasDateStr);
                 hasDate = strtol(hasDateStr.c_str(), NULL, 10);
 
-                /*
+/*
                 cout << "newLastname: " << newLastname << endl;
                 cout << "newFirstname: " << newFirstname << endl;
                 cout << "newPatronymic: " << newPatronymic << endl;
@@ -496,11 +557,11 @@ void loadAddressBook(LinkedListType<AddressBook>& addressBookList)
                 cout << "newCity: " << newCity << endl;
                 cout << "newCountry: " << newCountry << endl;
 */
-
                 if (hasDate)
                 {
-                    addressBook >> newMonth >> newDay >> newYear;
-                    newBirthday.Initialize(newMonth,newDay,newYear);
+                    addressBook >> newDay >> newMonth >> newYear;
+
+                    newBirthday.Initialize(newDay, newMonth, newYear);
                 }
                 AddressBook newContact(newFirstname, newLastname, newPatronymic,
                                        newPhone_home, newPhone_work, newPhone_mobile, newEmail,
@@ -558,6 +619,7 @@ void saveAddressBookList(LinkedListType<AddressBook>& addressBookList)
         addressBook << contactPhone_home << endl;
         addressBook << contactPhone_work << endl;
         addressBook << contactPhone_mobile << endl;
+        addressBook << contactEmail << endl;
         addressBook << contactAddress1 << endl;
         addressBook << contactAddress2 << endl;
         addressBook << contactCity << endl;
@@ -567,7 +629,7 @@ void saveAddressBookList(LinkedListType<AddressBook>& addressBookList)
 
         addressBook << hasDate << endl;
         if (hasDate)
-            addressBook << contactBirthday.GetMonth() << " " << contactBirthday.GetDay()
+            addressBook << " " << contactBirthday.GetDay() << " " << contactBirthday.GetMonth()
                         << " " << contactBirthday.GetYear() << endl;
 
         newContact = addressBookList.GetNextItem();
